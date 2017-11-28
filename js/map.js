@@ -75,6 +75,6 @@ var createPinElement = function () {
   return pinFragment;
 };
 
-mapPins.appendChild(createPinElement(addAds));
+mapPins.appendChild(createPinElement());
 
 
