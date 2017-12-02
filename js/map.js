@@ -54,7 +54,7 @@ var generatePin = function (numberAvatar) {
   };
 };
 
-var addAds = function () {      //добавляем данные в массив
+var addAds = function () {
   for (var i = 0; i < TOTAL_ADS; i++) {
     ads.push(generatePin(i));
   }
