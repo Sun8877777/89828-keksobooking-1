@@ -87,9 +87,9 @@ var getOfferType = function (type) {
 var generateFeaturesDom = function (array) {
   var featureFragment = document.createDocumentFragment();
   var feature;
-  for (var i = 0; i < array.offer.features.length; i++) {
+  for (var i = 0; i < array[i].offer.features.length - 1; i++) {
     feature = document.createElement('li');
-    feature.className = '.feature .feature--' + array.offer.features[i];
+    feature.className = '.feature .feature--' + array[i].offer.features[i];
     featureFragment.appendChild(feature);
   }
   return featureFragment;
@@ -100,7 +100,8 @@ var renderElemAds = function (array) {
   var renderFragment = document.createDocumentFragment();
   for (var i = 0; i < array.length; i++) {
     renderElement.querySelector('h3').textContent = array[i].offer.title;
-    renderElement.querySelector('.popup__price').textContent = array[i].offer.price + '&#x20bd;/ночь';
+    renderElement.querySelector('h3 + p > small').textContent = array[i].offer.address;
+    renderElement.querySelector('.popup__price').innerHTML = array[i].offer.price + '&#x20bd;' + ' /ночь';
     renderElement.querySelector('h4').textContent = getOfferType(array[i].offer.type);
     renderElement.querySelector('h4 + p').textContent = array[i].offer.rooms + 'комнаты для ' + array[i].offer.guests + ' гостей';
     renderElement.querySelector('h4 + p + p').textContent = 'Заезд после ' + array[i].offer.checkin + ', выезд до ' + array[i].offer.checkout;
