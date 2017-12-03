@@ -11,10 +11,13 @@ var OFFER_TIMES = ['12:00', '13:00', '14:00'];
 var OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PIN_WIDTH = 40;
 var PIN_HEIGH = 40;
-var map = document.querySelector('.map');
-var mapPins = document.querySelector('.map__pins');
-var mapFilter = map.querySelector('.map__filters-container');
-var mapCardTemplate = document.querySelector('template').content.querySelector('article.map__card');
+var mainMap = document.querySelector('.map');
+var pinMap = document.querySelector('.map__pins');
+var pinMapFilter = mainMap.querySelector('.map__filters-container');
+var mapPinMain = document.querySelector('.map__pin--main');
+var cardTemplate = document.querySelector('template').content.querySelector('article.map__card');
+var mainFormPage = document.querySelector('.notice__form');
+var fieldsetMainForm = mainFormPage.querySelectorAll('fieldset');
 var housePhotos = [];
 var ads = [];
 
@@ -69,6 +72,7 @@ var createPinElement = function () {
     buttonPin = document.createElement('button');
     buttonPin.style.cssText = 'left: ' + ads[i].location.x + 'px; top: ' + ads[i].location.y + 'px;';
     buttonPin.classList.add('map__pin');
+    buttonPin.setAttribute('data-num', i);
     imagePin = document.createElement('img');
     imagePin.setAttribute('src', ads[i].author.avatar);
     imagePin.setAttribute('width', PIN_WIDTH);
@@ -95,8 +99,8 @@ var generateFeaturesDom = function (elem) {
   return featureFragment;
 };
 
-var renderElemAds = function (elem) {
-  var renderElement = mapCardTemplate.cloneNode(true);
+var createElemDialogPanel = function (elem) {
+  var renderElement = cardTemplate.cloneNode(true);
   var renderFragment = document.createDocumentFragment();
   renderElement.querySelector('h3').textContent = elem.offer.title;
   renderElement.querySelector('h3 + p > small').textContent = elem.offer.address;
@@ -110,7 +114,69 @@ var renderElemAds = function (elem) {
   return renderFragment;
 };
 
-addAds();
-mapPins.appendChild(createPinElement());
-map.insertBefore(renderElemAds(ads[0]), mapFilter);
+  // module4-task1
+var disabledElemMainForm = function (elems) {
+  for (var i = 0; i < elems.length; i++) {
+    elems[i].setAttribute('disabled', true);
+  }
+};
 
+var addClassTo = function (element, className) {
+  return element.classList.add(className);
+};
+
+var removeClassFrom = function (element, className) {
+  return element.classList.remove(className);
+};
+
+var showElement = function (element) {
+  if (element.classList.contains('hidden')) {
+    removeClassFrom(element,'hidden');
+  }
+};
+
+var hideElement = function (element) {
+  if (!(element.classList.contains('hidden'))) {
+    addClassTo(element, 'hidden');
+  }
+};
+
+var getDataNum = function (dataNum) { // получение номера из data -атрибута
+  return dataNum.getAttribute('data-num');
+};
+var removeContent = function (array) {
+  for (var i = array.childNodes.length - 1; i >= 0; i--) {
+    array.removeChild(array.childNodes[i]);
+  }
+};
+
+var onLoadPage = function () {
+  mainMap.classList.add('map--faded');
+  if (mainFormPage.classList.contains === 'notice__form--disabled') {
+    disabledElemMainForm(fieldsetMainForm);
+  } else {
+    addClassTo(mainFormPage, 'notice__form--disabled');
+    disabledElemMainForm(fieldsetMainForm);
+  }
+};
+
+var renderControlPanel = function (number) {
+  removeContent(pinMap);
+  mainMap.insertBefore(createElemDialogPanel(ads[number]), pinMapFilter);
+};
+
+var onPinClick = function (evt) {
+  var pin = evt.currentTarget;
+  window.removeEventListener('DOMContentLoaded', onLoadPage);
+  removeClassFrom(mainFormPage, 'notice__form--disabled');
+  addClassTo(pin, 'map__pin--active');
+  renderControlPanel(getDataNum(pin));
+};
+var interactiveRenderPin = function () {
+  window.addEventListener('DOMContentLoaded', onLoadPage);
+  mapPinMain.addEventListener('mouseup', onPinClick);
+};
+
+addAds();
+pinMap.appendChild(createPinElement());
+interactiveRenderPin();
