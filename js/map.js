@@ -16,6 +16,7 @@ var pinMapContainer = document.querySelector('.map__pins');
 var pinElems = pinMapContainer.querySelectorAll('.map__pin');
 var pinMapFilter = mainMap.querySelector('.map__filters-container');
 var mapPinMain = document.querySelector('.map__pin--main');
+var popupClose = document.querySelector('.popup__close')
 var cardTemplate = document.querySelector('template').content.querySelector('article.map__card');
 var mainFormPage = document.querySelector('.notice__form');
 var fieldsetMainForm = mainFormPage.querySelectorAll('fieldset');
@@ -45,9 +46,9 @@ var generatePin = function (numberAvatar) {
       type: getRandomElementArray(HOUSING_CATEGORIES),
       rooms: getRandomNumber(1, 5),
       guests: getRandomNumber(1, 5),
-      checkin: getRandomElementArray(OFFER_TIMES),
-      checkout: getRandomElementArray(OFFER_TIMES),
-      features: getRandomElementArray(OFFER_FEATURES),
+      checkin: OFFER_TIMES[getRandomElementArray(OFFER_TIMES)],
+      checkout: OFFER_TIMES[getRandomElementArray(OFFER_TIMES)],
+      features: OFFER_FEATURES[getRandomElementArray(OFFER_FEATURES)],
       description: '',
       photos: housePhotos
     },
@@ -122,6 +123,12 @@ var disabledElemMainForm = function (elems) {
   }
 };
 
+var enabledElemMainForm = function (elems) {
+  for (var i = 0; i < elems.length; i++) {
+    elems[i].removeAttribute('disabled');
+  }
+};
+
 var addClassTo = function (element, className) {
   return element.classList.add(className);
 };
@@ -157,28 +164,31 @@ var onLoadPage = function () {
 };
 
 var renderControlPanel = function (number) {
-//  removeContent(pinMapContainer);
   mainMap.insertBefore(createElemDialogPanel(ads[number]), pinMapFilter);
 };
 
 var onPinMainClick = function () {
   window.removeEventListener('DOMContentLoaded', onLoadPage);
   removeClassFrom(mainFormPage, 'notice__form--disabled');
+  enabledElemMainForm(fieldsetMainForm);
   pinMapContainer.appendChild(createPinElement());
-  var mapCardPanelAll = document.querySelectorAll('.map__card');
-  removeContent(mapCardPanelAll);
 };
 
 var onPinClick = function (evt) {
+  evt.preventDefault();
   var pin = evt.currentTarget;
   deactivatePin(pinMapContainer);
   addClassTo(pin, 'map__pin--active');
-  renderControlPanel(getDataNum(pin) * 1);
+  renderControlPanel(getDataNum(pin));
 };
 
+// var onPopupClose = function () {
+//  popupClose
+// }
 var interactiveRenderPin = function () {
   window.addEventListener('load', onLoadPage);
   mapPinMain.addEventListener('mouseup', onPinMainClick);
+  // removeContent(mainMap.querySelectorAll('.map__card popup'));
   addAds();
 
   for (var i = 0; i < pinElems.length; i++) {
