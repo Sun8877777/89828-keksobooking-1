@@ -12,7 +12,8 @@ var OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'co
 var PIN_WIDTH = 40;
 var PIN_HEIGH = 40;
 var mainMap = document.querySelector('.map');
-var pinMap = document.querySelector('.map__pins');
+var pinMapContainer = document.querySelector('.map__pins');
+var pinElems = pinMapContainer.querySelectorAll('.map__pin');
 var pinMapFilter = mainMap.querySelector('.map__filters-container');
 var mapPinMain = document.querySelector('.map__pin--main');
 var cardTemplate = document.querySelector('template').content.querySelector('article.map__card');
@@ -129,24 +130,19 @@ var removeClassFrom = function (element, className) {
   return element.classList.remove(className);
 };
 
-var showElement = function (element) {
-  if (element.classList.contains('hidden')) {
-    removeClassFrom(element,'hidden');
-  }
-};
-
-var hideElement = function (element) {
-  if (!(element.classList.contains('hidden'))) {
-    addClassTo(element, 'hidden');
-  }
-};
-
 var getDataNum = function (dataNum) { // получение номера из data -атрибута
   return dataNum.getAttribute('data-num');
 };
 var removeContent = function (array) {
   for (var i = array.childNodes.length - 1; i >= 0; i--) {
     array.removeChild(array.childNodes[i]);
+  }
+};
+
+var deactivatePin = function (element) {
+  var statusPin = element.querySelector('.pin--active');
+  if (statusPin) {
+    removeClassFrom(statusPin, 'pin--active');
   }
 };
 
@@ -161,22 +157,34 @@ var onLoadPage = function () {
 };
 
 var renderControlPanel = function (number) {
-  removeContent(pinMap);
+//  removeContent(pinMapContainer);
   mainMap.insertBefore(createElemDialogPanel(ads[number]), pinMapFilter);
+};
+
+var onPinMainClick = function () {
+  window.removeEventListener('DOMContentLoaded', onLoadPage);
+  removeClassFrom(mainFormPage, 'notice__form--disabled');
+  pinMapContainer.appendChild(createPinElement());
+  var mapCardPanelAll = document.querySelectorAll('.map__card');
+  removeContent(mapCardPanelAll);
 };
 
 var onPinClick = function (evt) {
   var pin = evt.currentTarget;
-  window.removeEventListener('DOMContentLoaded', onLoadPage);
-  removeClassFrom(mainFormPage, 'notice__form--disabled');
+  deactivatePin(pinMapContainer);
   addClassTo(pin, 'map__pin--active');
-  renderControlPanel(getDataNum(pin));
-};
-var interactiveRenderPin = function () {
-  window.addEventListener('DOMContentLoaded', onLoadPage);
-  mapPinMain.addEventListener('mouseup', onPinClick);
+  renderControlPanel(getDataNum(pin) * 1);
 };
 
-addAds();
-pinMap.appendChild(createPinElement());
+var interactiveRenderPin = function () {
+  window.addEventListener('load', onLoadPage);
+  mapPinMain.addEventListener('mouseup', onPinMainClick);
+  addAds();
+
+  for (var i = 0; i < pinElems.length; i++) {
+    pinElems[i].addEventListener('mouseup', onPinClick);
+  }
+};
+// pinMapContainer.appendChild(createPinElement());
 interactiveRenderPin();
+// renderControlPanel(0)
