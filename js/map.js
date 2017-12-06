@@ -18,8 +18,8 @@ var cardTemplate = document.querySelector('template').content.querySelector('art
 var mainFormPage = document.querySelector('.notice__form');
 var fieldsetMainForm = mainFormPage.querySelectorAll('fieldset');
 var pinElems;
-var popupClose = document.querySelector('.popup__close');
-var mapCardPopup;
+// var popupClose = document.querySelector('.popup__close');
+// var mapCardPopup;
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 var housePhotos = [];
@@ -148,18 +148,13 @@ var getDataNum = function (dataNum) { // получение номера из da
 //     array.removeChild(array.childNodes[i]);
 //   }
 // };
-var renderControlPanel = function (number, event) {
+var renderControlPanel = function (number) {
   var panel = createElemDialogPanel(ads[number]);
   mainMap.insertBefore(panel, pinMapFilter);
   var closeCardPanel = document.querySelector('.map__card');
   var buttonClose = closeCardPanel.querySelector('.popup__close');
   buttonClose.addEventListener('click', onPopupClose);
-  var onKeyEscPress = function (event) {
-    if (event.keyCode === ESC_KEYCODE) {
-      onPopupClose();
-    }
-  };
-  buttonClose.addEventListener('keypress', onKeyEscPress);
+  document.addEventListener('keydown', onKeyEscPress);
 };
 
 var removeControlPanel = function () {
@@ -215,11 +210,12 @@ var onPinKeyEnter = function (event) {
   }
 };
 
-// var onKeyEscPress = function (event) {
-//   if (event.keyCode === ESC_KEYCODE) {
-//     onPopupClose();
-//   }
-// };
+var onKeyEscPress = function (event) {
+  if (event.keyCode === ESC_KEYCODE) {
+    onPopupClose();
+    document.removeEventListener('keydown', onKeyEscPress);
+  }
+};
 
 var loadPage = function () {
   if (mainFormPage.classList.contains === 'notice__form--disabled') {
@@ -233,10 +229,8 @@ var loadPage = function () {
 var interactiveRenderPin = function () {
   loadPage();
   mapPinMain.addEventListener('mouseup', onPinMainClick);
-  if (popupClose) {
-    popupClose.addEventListener('click', onPopupClose);
-    popupClose.addEventListener('keydown', onKeyEscPress);
-  }
 };
 
 interactiveRenderPin();
+
+
