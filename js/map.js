@@ -148,8 +148,18 @@ var getDataNum = function (dataNum) { // получение номера из da
 //     array.removeChild(array.childNodes[i]);
 //   }
 // };
-var renderControlPanel = function (number) {
-  mainMap.insertBefore(createElemDialogPanel(ads[number]), pinMapFilter);
+var renderControlPanel = function (number, event) {
+  var panel = createElemDialogPanel(ads[number]);
+  mainMap.insertBefore(panel, pinMapFilter);
+  var closeCardPanel = document.querySelector('.map__card');
+  var buttonClose = closeCardPanel.querySelector('.popup__close');
+  buttonClose.addEventListener('click', onPopupClose);
+  var onKeyEscPress = function (event) {
+    if (event.keyCode === ESC_KEYCODE) {
+      onPopupClose();
+    }
+  };
+  buttonClose.addEventListener('keypress', onKeyEscPress);
 };
 
 var removeControlPanel = function () {
@@ -180,6 +190,7 @@ var onPinMainClick = function () {
       pinElems[i].addEventListener('keypress', onPinKeyEnter);
     }
   }
+  mapPinMain.removeEventListener('mouseup', onPinMainClick);
 };
 
 var onPinClick = function (event) {
@@ -188,14 +199,14 @@ var onPinClick = function (event) {
   deactivatePin(pinMapContainer);
   addClassTo(pin, 'map__pin--active');
   renderControlPanel(getDataNum(pin));
-  popupClose = document.querySelector('.popup__close');
-  popupClose.setAttribute('tabindex', '0');
-  mapCardPopup = document.querySelector('.map__pins + article');
 };
 
 var onPopupClose = function () {
-  mainMap.removeChild(mapCardPopup);
+  var el = document.querySelector('.map__card');
+  var buttonClose = el.querySelector('.popup__close');
+  el.classList.add('hidden');
   deactivatePin(pinMapContainer);
+  buttonClose.removeEventListener('click', onPopupClose);
 };
 
 var onPinKeyEnter = function (event) {
@@ -204,11 +215,11 @@ var onPinKeyEnter = function (event) {
   }
 };
 
-var onKeyEscPress = function (event) {
-  if (event.keyCode === ESC_KEYCODE) {
-    onPopupClose();
-  }
-};
+// var onKeyEscPress = function (event) {
+//   if (event.keyCode === ESC_KEYCODE) {
+//     onPopupClose();
+//   }
+// };
 
 var loadPage = function () {
   if (mainFormPage.classList.contains === 'notice__form--disabled') {
