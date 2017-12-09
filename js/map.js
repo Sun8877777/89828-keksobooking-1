@@ -230,12 +230,16 @@ var interactiveRenderPin = function () {
 interactiveRenderPin();
 
 // Валидация формы
-var validateForm = function (evt) {
+var validateForm = function () {
   var form = document.querySelector('.notice__form');
   var timeinForm = form.querySelector('select#timein');
   var timeoutForm = form.querySelector('select#timeout');
   var typeOfhousing = form.querySelector('select#type');
   var priceOfHousing = form.querySelector('input#price');
+  var submitForm = form.querySelector('.form__submit');
+  var roomNumber = form.querySelector('select#room_number');
+  var capasityGuest = form.querySelector('select#capacity');
+  var inputElements = form.querySelectorAll('input');
 
   var syncTimeOfArrive = function (evt) {
     timeoutForm.value = evt.target.value;
@@ -251,21 +255,55 @@ var validateForm = function (evt) {
   };
 
   priceOfHousing.addEventListener('change', function (evt) {
-    var inputPrice = evt.target.value;
-    console.log(inputPrice);
-    var bungaloMinPrice = 0;
+    var inputPrice = evt.target;
+    // var bungaloMinPrice = 0;
     var flatMinPrice = 1000;
     var houseMinPrice = 5000;
     var palaceMinPrice = 1000;
-    switch (inputPrice) {
-      case (inputPrice >= bungaloMinPrice && inputPrice < flatMinPrice): inputPrice.setCustomValidity('Введите цену в диапазоне от ' + bungaloMinPrice + ' до' + flatMinPrice); break;
-      case (inputPrice >= flatMinPrice && inputPrice < houseMinPrice): inputPrice.setCustomValidity('Введите цену в диапазоне от ' + flatMinPrice + ' до' + houseMinPrice); break;
-      case (inputPrice >= houseMinPrice && inputPrice < palaceMinPrice): inputPrice.setCustomValidity('Введите цену в диапазоне от ' + houseMinPrice + ' до' + palaceMinPrice); break;
-      default: inputPrice.setCustomValidity(''); break;
+
+    if (typeOfhousing.value === 'bungalo' && inputPrice.value > flatMinPrice) {
+      inputPrice.setCustomValidity('Введите цену менее' + flatMinPrice);
+    } else if (typeOfhousing.value === 'flat' && inputPrice.value > houseMinPrice) {
+      inputPrice.setCustomValidity('Введите цену менее' + houseMinPrice);
+    } else if (typeOfhousing.value === 'house' && inputPrice.value > palaceMinPrice) {
+      inputPrice.setCustomValidity('Введите цену менее' + houseMinPrice);
     }
   });
+
+  var setGuestInRooms = function (evt) {
+    var quantityRooom = evt.target;
+    switch (quantityRooom.value) {
+      case '1': capasityGuest.value = 1; break;
+      case '2': capasityGuest.value = 2; break;
+      case '3': capasityGuest.value = 3; break;
+      case '100': capasityGuest.value = 0; break;
+    }
+  };
+
+  var checkValidity = function () {
+    for (var i = 0; i < inputElements.length; i++) {
+      var userNameInput = inputElements[i];
+      console.log(userNameInput);
+      if (userNameInput.validity.tooShort) {
+        userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+      } else if (userNameInput.validity.tooLong) {
+        userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
+      } else if (userNameInput.validity.valueMissing) {
+        userNameInput.setCustomValidity('Обязательное поле');
+      } else if (userNameInput.validity.rangeOverflow) {
+        userNameInput.setCustomValidity('Превосходит максимальное значение');
+      } else if (userNameInput.validity.rangeUnderflow) {
+        userNameInput.setCustomValidity('Превосходит минимальное значение');
+      } else {
+        userNameInput.setCustomValidity('');
+      }
+    }
+  };
+
   timeinForm.addEventListener('change', syncTimeOfArrive);
   typeOfhousing.addEventListener('change', syncHousungMinPrice);
+  roomNumber.addEventListener('change', setGuestInRooms);
+  submitForm.addEventListener('invalid', checkValidity);
 };
-validateForm();
 
+validateForm();
