@@ -233,4 +233,6 @@ var interactiveRenderPin = function () {
 
 interactiveRenderPin();
 
-
+var formValidation = function (formElem) {
+  
+}
