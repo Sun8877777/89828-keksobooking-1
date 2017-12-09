@@ -4,7 +4,8 @@ var DESK_OF_CONDITIONS = ['Большая уютная квартира', 'Ма�
 var HOUSING_CATEGORIES = {
   flat: 'Квартира',
   house: 'Дом',
-  bungalo: 'Бунгало'
+  bungalo: 'Бунгало',
+  palace: 'Дворец'
 };
 var OFFER_TIMES = ['12:00', '13:00', '14:00'];
 var OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -143,11 +144,6 @@ var getDataNum = function (dataNum) { // получение номера из da
   return dataNum.getAttribute('data-num');
 };
 
-// var removeContent = function (array) {
-//   for (var i = array.childNodes.length - 1; i >= 0; i--) {
-//     array.removeChild(array.childNodes[i]);
-//   }
-// };
 var renderControlPanel = function (number) {
   var panel = createElemDialogPanel(ads[number]);
   mainMap.insertBefore(panel, pinMapFilter);
@@ -233,6 +229,43 @@ var interactiveRenderPin = function () {
 
 interactiveRenderPin();
 
-var formValidation = function (formElem) {
-  
-}
+// Валидация формы
+var validateForm = function (evt) {
+  var form = document.querySelector('.notice__form');
+  var timeinForm = form.querySelector('select#timein');
+  var timeoutForm = form.querySelector('select#timeout');
+  var typeOfhousing = form.querySelector('select#type');
+  var priceOfHousing = form.querySelector('input#price');
+
+  var syncTimeOfArrive = function (evt) {
+    timeoutForm.value = evt.target.value;
+  };
+
+  var syncHousungMinPrice = function (evt) {
+    switch (evt.target.value) {
+      case 'flat': priceOfHousing.value = 1000; break;
+      case 'bungalo': priceOfHousing.value = 0; break;
+      case 'house': priceOfHousing.value = 5000; break;
+      case 'palace': priceOfHousing.value = 10000; break;
+    }
+  };
+
+  priceOfHousing.addEventListener('change', function (evt) {
+    var inputPrice = evt.target.value;
+    console.log(inputPrice);
+    var bungaloMinPrice = 0;
+    var flatMinPrice = 1000;
+    var houseMinPrice = 5000;
+    var palaceMinPrice = 1000;
+    switch (inputPrice) {
+      case (inputPrice >= bungaloMinPrice && inputPrice < flatMinPrice): inputPrice.setCustomValidity('Введите цену в диапазоне от ' + bungaloMinPrice + ' до' + flatMinPrice); break;
+      case (inputPrice >= flatMinPrice && inputPrice < houseMinPrice): inputPrice.setCustomValidity('Введите цену в диапазоне от ' + flatMinPrice + ' до' + houseMinPrice); break;
+      case (inputPrice >= houseMinPrice && inputPrice < palaceMinPrice): inputPrice.setCustomValidity('Введите цену в диапазоне от ' + houseMinPrice + ' до' + palaceMinPrice); break;
+      default: inputPrice.setCustomValidity(''); break;
+    }
+  });
+  timeinForm.addEventListener('change', syncTimeOfArrive);
+  typeOfhousing.addEventListener('change', syncHousungMinPrice);
+};
+validateForm();
+
