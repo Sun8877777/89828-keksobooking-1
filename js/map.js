@@ -260,15 +260,11 @@ var validateForm = function () {
     var flatMinPrice = 1000;
     var houseMinPrice = 5000;
     var palaceMinPrice = 1000;
-    console.dir(inputPrice.value);
-    if (typeOfhousing.value === 'bungalo' && inputPrice.value < flatMinPrice) {
-      console.dir('inputPrice' + ' bungalo');
+    if (typeOfhousing.value === 'bungalo' && inputPrice.value > '0' && inputPrice.value < flatMinPrice) {
       inputPrice.setCustomValidity('Введите цену менее' + flatMinPrice);
-    } else if (typeOfhousing.value === 'flat' && inputPrice.value < houseMinPrice) {
-      console.dir('inputPrice' + ' flat');
+    } else if (typeOfhousing.value === 'flat' && inputPrice.value >= flatMinPrice && inputPrice.value < houseMinPrice) {
       inputPrice.setCustomValidity('Введите цену менее' + houseMinPrice);
-    } else if (typeOfhousing.value === 'house' && inputPrice.value < palaceMinPrice) {
-      console.dir('inputPrice' + ' house');
+    } else if (typeOfhousing.value === 'house' && inputPrice.value > palaceMinPrice) {
       inputPrice.setCustomValidity('Введите цену менее' + houseMinPrice);
     }
   });
@@ -296,17 +292,20 @@ var validateForm = function () {
         userNameInput.setCustomValidity('Не соответствует максимальное значение');
       } else if (userNameInput.validity.rangeUnderflow) {
         userNameInput.setCustomValidity('Не соответствует минимальное значение');
-      } else {
-        userNameInput.setCustomValidity('');
       }
     }
+    // if (roomNumber.value !== capasityGuest.value) {
+    //   roomNumber.setCustomValidity('Неверное количество гостей');
+    // } else if (roomNumber.value === '100') {
+    //   roomNumber.setCustomValidity('Неверное количество гостей');
+    // }
   };
 
   timeinForm.addEventListener('change', syncTimeOfArrive);
   timeoutForm.addEventListener('change', syncTimeOfArrive);
   typeOfhousing.addEventListener('change', syncHousungMinPrice);
-  roomNumber.addEventListener('DOMContentLoaded', setGuestInRooms);
-  submitForm.addEventListener('click', checkValidity);
+  roomNumber.addEventListener('change', setGuestInRooms);
+  submitForm.addEventListener('submit', checkValidity);
 };
 
 validateForm();
