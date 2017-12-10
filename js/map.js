@@ -257,15 +257,19 @@ var validateForm = function () {
 
   priceOfHousing.addEventListener('input', function (evt) {
     var inputPrice = evt.target;
+    var bungaloPriceMin = 0;
     var flatMinPrice = 1000;
     var houseMinPrice = 5000;
     var palaceMinPrice = 1000;
-    if (typeOfhousing.value === 'bungalo' && inputPrice.value > '0' && inputPrice.value < flatMinPrice) {
-      inputPrice.setCustomValidity('Введите цену менее' + flatMinPrice);
-    } else if (typeOfhousing.value === 'flat' && inputPrice.value >= flatMinPrice && inputPrice.value < houseMinPrice) {
-      inputPrice.setCustomValidity('Введите цену менее' + houseMinPrice);
-    } else if (typeOfhousing.value === 'house' && inputPrice.value > palaceMinPrice) {
-      inputPrice.setCustomValidity('Введите цену менее' + houseMinPrice);
+    var maxPrice = 1000000;
+    if (typeOfhousing.value === 'bungalo' && (inputPrice.value < bungaloPriceMin || inputPrice.value < flatMinPrice)) {
+      inputPrice.setCustomValidity('Введите цену менее' + flatMinPrice + 'и более ' + bungaloPriceMin);
+    } else if (typeOfhousing.value === 'flat' && (inputPrice.value < flatMinPrice || inputPrice.value < houseMinPrice)) {
+      inputPrice.setCustomValidity('Введите цену менее' + houseMinPrice + 'и более ' + flatMinPrice);
+    } else if (typeOfhousing.value === 'house' && (inputPrice.value < houseMinPrice || inputPrice.value < palaceMinPrice)) {
+      inputPrice.setCustomValidity('Введите цену менее ' + palaceMinPrice + 'и более ' + houseMinPrice);
+    } else if (typeOfhousing.value === 'palace' && (inputPrice.value < palaceMinPrice || inputPrice.value < maxPrice)) {
+      inputPrice.setCustomValidity('Введите цену менее ' + maxPrice + 'и более ' + palaceMinPrice);
     }
   });
 
