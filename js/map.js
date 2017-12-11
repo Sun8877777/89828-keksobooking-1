@@ -255,21 +255,25 @@ var validateForm = function () {
     }
   };
 
-  priceOfHousing.addEventListener('input', function (evt) {
-    var inputPrice = evt.target;
+  typeOfhousing.addEventListener('change', function (evt) {
+    var typeOfHousing = evt.target;
     var bungaloPriceMin = 0;
     var flatMinPrice = 1000;
     var houseMinPrice = 5000;
-    var palaceMinPrice = 1000;
-    var maxPrice = 1000000;
-    if (typeOfhousing.value === 'bungalo' && (inputPrice.value < bungaloPriceMin || inputPrice.value < flatMinPrice)) {
-      inputPrice.setCustomValidity('Введите цену менее' + flatMinPrice + 'и более ' + bungaloPriceMin);
-    } else if (typeOfhousing.value === 'flat' && (inputPrice.value < flatMinPrice || inputPrice.value < houseMinPrice)) {
-      inputPrice.setCustomValidity('Введите цену менее' + houseMinPrice + 'и более ' + flatMinPrice);
-    } else if (typeOfhousing.value === 'house' && (inputPrice.value < houseMinPrice || inputPrice.value < palaceMinPrice)) {
-      inputPrice.setCustomValidity('Введите цену менее ' + palaceMinPrice + 'и более ' + houseMinPrice);
-    } else if (typeOfhousing.value === 'palace' && (inputPrice.value < palaceMinPrice || inputPrice.value < maxPrice)) {
-      inputPrice.setCustomValidity('Введите цену менее ' + maxPrice + 'и более ' + palaceMinPrice);
+    var palaceMinPrice = 10000;
+    switch (typeOfHousing.value) {
+      case 'bungalo':
+        typeOfHousing.min = bungaloPriceMin;
+        break;
+      case 'flat':
+        typeOfHousing.min = flatMinPrice;
+        break;
+      case 'house':
+        typeOfHousing.min = houseMinPrice;
+        break;
+      case 'palace':
+        typeOfHousing.min = palaceMinPrice;
+        break;
     }
   });
 
@@ -298,11 +302,6 @@ var validateForm = function () {
         userNameInput.setCustomValidity('Не соответствует минимальное значение');
       }
     }
-    // if (roomNumber.value !== capasityGuest.value) {
-    //   roomNumber.setCustomValidity('Неверное количество гостей');
-    // } else if (roomNumber.value === '100') {
-    //   roomNumber.setCustomValidity('Неверное количество гостей');
-    // }
   };
 
   timeinForm.addEventListener('change', syncTimeOfArrive);
