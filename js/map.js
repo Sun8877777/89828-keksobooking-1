@@ -255,24 +255,46 @@ var validateForm = function () {
     }
   };
 
+  // typeOfhousing.addEventListener('change', function (evt) {
+  //   var typeOfHousing = evt.target;
+  //   var bungaloPriceMin = 0;
+  //   var flatMinPrice = 1000;
+  //   var houseMinPrice = 5000;
+  //   var palaceMinPrice = 10000;
+  //   switch (typeOfHousing.value) {
+  //     case 'bungalo':
+  //       priceOfHousing.min = bungaloPriceMin;
+  //       break;
+  //     case 'flat':
+  //       priceOfHousing.min = flatMinPrice;
+  //       break;
+  //     case 'house':
+  //       priceOfHousing.min = houseMinPrice;
+  //       break;
+  //     case 'palace':
+  //       priceOfHousing.min = palaceMinPrice;
+  //       break;
+  //   }
+  // });
   typeOfhousing.addEventListener('change', function (evt) {
     var typeOfHousing = evt.target;
     var bungaloPriceMin = 0;
     var flatMinPrice = 1000;
     var houseMinPrice = 5000;
     var palaceMinPrice = 10000;
+
     switch (typeOfHousing.value) {
       case 'bungalo':
-        typeOfHousing.min = bungaloPriceMin;
+        priceOfHousing.min = bungaloPriceMin;
         break;
       case 'flat':
-        typeOfHousing.min = flatMinPrice;
+        priceOfHousing.min = flatMinPrice;
         break;
       case 'house':
-        typeOfHousing.min = houseMinPrice;
+        priceOfHousing.min = houseMinPrice;
         break;
       case 'palace':
-        typeOfHousing.min = palaceMinPrice;
+        priceOfHousing.min = palaceMinPrice;
         break;
     }
   });
