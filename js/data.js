@@ -11,8 +11,6 @@
     };
     var OFFER_TIMES = ['12:00', '13:00', '14:00'];
     var OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-    var PIN_WIDTH = 40;
-    var PIN_HEIGH = 40;
     var housePhotos = [];
     var ads = [];
 
@@ -26,8 +24,8 @@
     };
 
     var generatePin = function (numberAvatar) {
-      var locationX = (getRandomNumber(300 + (PIN_WIDTH / 2), 900 - (PIN_WIDTH / 2)));
-      var locationY = getRandomNumber(100 + PIN_HEIGH, 500);
+      var locationX = getRandomNumber(300, 900);
+      var locationY = getRandomNumber(100, 500);
       return {
         author: {
           avatar: 'img/avatars/user0' + (numberAvatar + 1) + '.png'
