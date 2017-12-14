@@ -1,5 +1,4 @@
 'use strict';
-// Валидация формы
 (function () {
   var form = document.querySelector('.notice__form');
   var timeinForm = form.querySelector('select#timein');
@@ -82,4 +81,3 @@
   submitForm.addEventListener('submit', checkValidity);
 })();
 
-// validateForm();

@@ -1,10 +1,11 @@
 'use strict';
 (function () {
+  var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
   var mainMap = document.querySelector('.map');
   var pinMapContainer = document.querySelector('.map__pins');
   var pinMapFilter = mainMap.querySelector('.map__filters-container');
   var mapPinMain = document.querySelector('.map__pin--main');
-  // var cardTemplate = document.querySelector('template').content.querySelector('article.map__card');
   var mainFormPage = document.querySelector('.notice__form');
   var fieldsetMainForm = mainFormPage.querySelectorAll('fieldset');
   var pinElems;
@@ -28,9 +29,9 @@
   var getDataNum = function (dataNum) { // получение номера из data -атрибута
     return dataNum.getAttribute('data-num');
   };
-  
+
   var renderControlPanel = function (number) {
-    var panel = window.createElemDialogPanel(window.data.ads[number]);
+    var panel = window.createElemDialogPanel(window.getData()[number]);
     mainMap.insertBefore(panel, pinMapFilter);
     var closeCardPanel = document.querySelector('.map__card');
     var buttonClose = closeCardPanel.querySelector('.popup__close');
@@ -57,7 +58,6 @@
     removeClassFrom(mainMap, 'map--faded');
     removeClassFrom(mainFormPage, 'notice__form--disabled');
     enabledElemMainForm(fieldsetMainForm);
-    // addAds();
     pinMapContainer.appendChild(window.createPin);
     pinElems = pinMapContainer.querySelectorAll('.map__pin');
     for (var i = 0; i < pinElems.length; i++) {
@@ -86,13 +86,13 @@
   };
 
   var onPinKeyEnter = function (event) {
-    if (event.keyCode === window.data.ENTER_KEYCODE) {
+    if (event.keyCode === ENTER_KEYCODE) {
       onPinClick(event);
     }
   };
 
   var onKeyEscPress = function (event) {
-    if (event.keyCode === window.data.ESC_KEYCODE) {
+    if (event.keyCode === ESC_KEYCODE) {
       onPopupClose();
       document.removeEventListener('keydown', onKeyEscPress);
     }
@@ -106,11 +106,6 @@
       disabledElemMainForm(fieldsetMainForm);
     }
   };
-  // var interactiveRenderPin = function () {
-  //   loadPage();
-  //   mapPinMain.addEventListener('mouseup', onPinMainClick);
-  // };
   loadPage();
   mapPinMain.addEventListener('mouseup', onPinMainClick);
-// interactiveRenderPin();
 })();

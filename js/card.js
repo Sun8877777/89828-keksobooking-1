@@ -1,8 +1,14 @@
 'use strict';
 (function () {
   var cardTemplate = document.querySelector('template').content.querySelector('article.map__card');
+  var HOUSING_CATEGORIES = {
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало',
+    palace: 'Дворец'
+  };
   var getOfferType = function (type) {
-    return window.data.HOUSING_CATEGORIES[type];
+    return HOUSING_CATEGORIES[type];
   };
 
   var generateFeaturesDom = function (elem) {
@@ -30,5 +36,4 @@
     renderFragment.appendChild(renderElement);
     return renderFragment;
   };
-
 })();
