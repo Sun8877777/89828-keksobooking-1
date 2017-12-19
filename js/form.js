@@ -1,5 +1,14 @@
 'use strict';
 (function () {
+  var OFFER_TIMES = ['12:00', '13:00', '14:00'];
+  var BUNGALO_MIN_PRICE = 0;
+  var FLAT_MIN_PRICE = 1000;
+  var HOUSE_MIN_PRICE = 5000;
+  var PALACE_MIN_PRICE = 10000;
+  var TYPES_OF_HOUSING = ['bungalo', 'flat', 'house', 'palace'];
+  var PRICE_OF_HOUSING = [BUNGALO_MIN_PRICE, FLAT_MIN_PRICE, HOUSE_MIN_PRICE, PALACE_MIN_PRICE];
+  var ROOMS = ['1', '2', '3', '100'];
+  var CAPACITYS = ['1', '2', '3', '0'];
   var form = document.querySelector('.notice__form');
   var timeinForm = form.querySelector('select#timein');
   var timeoutForm = form.querySelector('select#timeout');
@@ -7,53 +16,40 @@
   var priceOfHousing = form.querySelector('input#price');
   var submitForm = form.querySelector('.form__submit');
   var roomNumber = form.querySelector('select#room_number');
-  var capasityGuest = form.querySelector('select#capacity');
+  var capacityGuest = form.querySelector('select#capacity');
   var inputElements = form.querySelectorAll('input');
 
-  var syncTimeOfArrive = function (evt) {
-    timeoutForm.value = evt.target.value;
-    timeinForm.value = evt.target.value;
-  };
-
-  var syncHousungMinPrice = function (evt) {
-    switch (evt.target.value) {
-      case 'flat': priceOfHousing.value = 1000; break;
-      case 'bungalo': priceOfHousing.value = 0; break;
-      case 'house': priceOfHousing.value = 5000; break;
-      case 'palace': priceOfHousing.value = 10000; break;
+  var syncTimeOfArrive = function (elem1, elem2, arr1, arr2) {
+    if (arr1.length === arr2.length) {
+      for (var i = 0; i < arr1.length; i++) {
+        if (elem1.value === arr1[i]) {
+          elem2.value = arr2[i];
+        }
+      }
     }
   };
 
-  typeOfhousing.addEventListener('change', function (evt) {
-    var typeOfHousing = evt.target;
-    var bungaloPriceMin = 0;
-    var flatMinPrice = 1000;
-    var houseMinPrice = 5000;
-    var palaceMinPrice = 10000;
-
-    switch (typeOfHousing.value) {
-      case 'bungalo':
-        priceOfHousing.min = bungaloPriceMin;
-        break;
-      case 'flat':
-        priceOfHousing.min = flatMinPrice;
-        break;
-      case 'house':
-        priceOfHousing.min = houseMinPrice;
-        break;
-      case 'palace':
-        priceOfHousing.min = palaceMinPrice;
-        break;
+  var syncHousungMinPrice = function (elem1, elem2, arr1, arr2) {
+    if (arr1.length === arr2.length) {
+      for (var i = 0; i < arr1.length; i++) {
+        switch (elem1.value) {
+          case (arr1[i]): elem2.value = arr2[i]; break;
+        }
+        switch (elem1.value) {
+          case (arr1[i]):
+            elem2.min = arr2[i]; break;
+        }
+      }
     }
-  });
+  };
 
-  var setGuestInRooms = function (evt) {
-    var quantityRooom = evt.target;
-    switch (quantityRooom.value) {
-      case '1': capasityGuest.value = 1; break;
-      case '2': capasityGuest.value = 2; break;
-      case '3': capasityGuest.value = 3; break;
-      case '100': capasityGuest.value = 0; break;
+  var setGuestInRooms = function (elem1, elem2, arr1, arr2) {
+    if (arr1.length === arr2.length) {
+      for (var i = 0; i < arr1.length; i++) {
+        switch (elem1.value) {
+          case arr1[i]: elem2.value = arr2[i]; break;
+        }
+      }
     }
   };
 
@@ -74,10 +70,20 @@
     }
   };
 
-  timeinForm.addEventListener('change', syncTimeOfArrive);
-  timeoutForm.addEventListener('change', syncTimeOfArrive);
-  typeOfhousing.addEventListener('change', syncHousungMinPrice);
-  roomNumber.addEventListener('change', setGuestInRooms);
+  timeinForm.addEventListener('change', function () {
+    window.synchronizeFields(timeinForm, timeoutForm, OFFER_TIMES, OFFER_TIMES, syncTimeOfArrive);
+  });
+  timeoutForm.addEventListener('change', function () {
+    window.synchronizeFields(timeoutForm, timeinForm, OFFER_TIMES, OFFER_TIMES, syncTimeOfArrive);
+  });
+
+  typeOfhousing.addEventListener('change', function () {
+    window.synchronizeFields(typeOfhousing, priceOfHousing, TYPES_OF_HOUSING, PRICE_OF_HOUSING, syncHousungMinPrice);
+  });
+
+  roomNumber.addEventListener('change', function () {
+    window.synchronizeFields(roomNumber, capacityGuest, ROOMS, CAPACITYS, setGuestInRooms);
+  });
   submitForm.addEventListener('submit', checkValidity);
 })();
 
