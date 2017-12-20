@@ -21,3 +21,8 @@ window.createPin = (function () {
   }
   return pinFragment;
 })();
+
+
+(function () {
+
+})();
