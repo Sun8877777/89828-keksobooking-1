@@ -73,6 +73,7 @@
   var formSubmitSave = function (evt) {
     evt.preventDefault();
     window.backend.save(new FormData(form), window.errorHandler);
+    form.reset();
   };
 
   timeinForm.addEventListener('change', function () {
@@ -89,7 +90,7 @@
   roomNumber.addEventListener('change', function () {
     window.synchronizeFields(roomNumber, capacityGuest, ROOMS, CAPACITYS, setGuestInRooms);
   });
-  submitForm.addEventListener('submit', checkValidity);
-  submitForm.addEventListener('submit', formSubmitSave);
+  submitForm.addEventListener('change', checkValidity);
+  form.addEventListener('submit', formSubmitSave);
 })();
 

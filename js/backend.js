@@ -13,24 +13,24 @@
     xhr.responseType = DATA_TYPE;
 
     xhr.addEventListener('load', function () {
-      var error;
+      var msg;
       switch (xhr.status) {
         case 200:
           onSuccess(xhr.response);
           break;
         case 400:
-          error = 'Неверный запрос';
+          msg = 'Неверный запрос';
           break;
         case 401:
-          error = 'Пользователь не авторизован';
+          msg = 'Пользователь не авторизован';
           break;
         case 404:
-          error = 'Ничего не найдено';
+          msg = 'Ничего не найдено';
           break;
         default:
-          error = ERROR_STATUS + xhr.status + ' ' + xhr.statusText;
+          onError(xhr.response);
+          msg = ERROR_STATUS + xhr.status + ' ' + xhr.statusText;
       }
-
     });
 
     xhr.addEventListener('error', function () {
@@ -61,4 +61,3 @@
     }
   };
 })();
-
