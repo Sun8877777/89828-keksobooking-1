@@ -29,7 +29,6 @@
     return dataNum.getAttribute('data-num');
   };
 
-
   var removeControlPanel = function () {
     var controlPanels = mainMap.querySelectorAll('article');
     for (var i = controlPanels.length - 1; i >= 0; i--) {
@@ -50,7 +49,6 @@
     removeClassFrom(mainMap, 'map--faded');
     removeClassFrom(mainFormPage, 'notice__form--disabled');
     enabledElemMainForm(fieldsetMainForm);
-    // pinMapContainer.appendChild(window.createPin);
     pinElems = pinMapContainer.querySelectorAll('.map__pin');
     for (var i = 0; i < pinElems.length; i++) {
       if (!(pinElems[i].classList.contains('map__pin--main'))) {

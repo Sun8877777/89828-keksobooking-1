@@ -14,7 +14,6 @@
   var timeoutForm = form.querySelector('select#timeout');
   var typeOfhousing = form.querySelector('select#type');
   var priceOfHousing = form.querySelector('input#price');
-  var submitForm = form.querySelector('.form__submit');
   var roomNumber = form.querySelector('select#room_number');
   var capacityGuest = form.querySelector('select#capacity');
   var inputElements = form.querySelectorAll('input');
@@ -72,7 +71,6 @@
 
   var succsess = function () {
     form.reset();
-    console.log(form);
   };
 
   var formSubmitSave = function (evt) {
