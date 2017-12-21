@@ -43,15 +43,16 @@
       removeControlPanel();
     }
   };
-  // обработчики событий
+
+
   var onPinMainClick = function () {
     removeClassFrom(mainMap, 'map--faded');
     removeClassFrom(mainFormPage, 'notice__form--disabled');
     enabledElemMainForm(fieldsetMainForm);
-    pinMapContainer.appendChild(window.createPin);
     pinElems = pinMapContainer.querySelectorAll('.map__pin');
     for (var i = 0; i < pinElems.length; i++) {
       if (!(pinElems[i].classList.contains('map__pin--main'))) {
+        pinElems[i].classList.remove('hidden');
         pinElems[i].addEventListener('mouseup', onPinClick);
         pinElems[i].addEventListener('keypress', onPinKeyEnter);
       }

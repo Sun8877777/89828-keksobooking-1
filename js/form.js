@@ -14,7 +14,6 @@
   var timeoutForm = form.querySelector('select#timeout');
   var typeOfhousing = form.querySelector('select#type');
   var priceOfHousing = form.querySelector('input#price');
-  var submitForm = form.querySelector('.form__submit');
   var roomNumber = form.querySelector('select#room_number');
   var capacityGuest = form.querySelector('select#capacity');
   var inputElements = form.querySelectorAll('input');
@@ -70,6 +69,17 @@
     }
   };
 
+  var succsess = function () {
+    form.reset();
+  };
+
+  var formSubmitSave = function (evt) {
+    checkValidity(evt);
+    window.backend.save(new FormData(form), succsess, window.errorHandler);
+    evt.preventDefault();
+
+  };
+
   timeinForm.addEventListener('change', function () {
     window.synchronizeFields(timeinForm, timeoutForm, OFFER_TIMES, OFFER_TIMES, syncTimeOfArrive);
   });
@@ -84,6 +94,7 @@
   roomNumber.addEventListener('change', function () {
     window.synchronizeFields(roomNumber, capacityGuest, ROOMS, CAPACITYS, setGuestInRooms);
   });
-  submitForm.addEventListener('submit', checkValidity);
+  form.addEventListener('submit', checkValidity);
+  form.addEventListener('submit', formSubmitSave);
 })();
 
