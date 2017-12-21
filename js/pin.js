@@ -3,12 +3,15 @@
   window.createPin = function (data) {
     var PIN_WIDTH = 40;
     var PIN_HEIGH = 40;
+    var TOTAL_ADS = 8;
+    var pinMapContainer = document.querySelector('.map__pins');
     var pinFragment = document.createDocumentFragment();
     var buttonPin;
     var imagePin;
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < TOTAL_ADS; i++) {
       buttonPin = document.createElement('button');
       buttonPin.classList.add('map__pin');
+      buttonPin.classList.add('hidden');
       buttonPin.setAttribute('data-num', i);
       buttonPin.setAttribute('tabinex', '0');
       buttonPin.style.cssText = 'left: ' + data[i].location.x + 'px; top: ' + data[i].location.y + 'px;';
@@ -20,18 +23,9 @@
       buttonPin.appendChild(imagePin);
       pinFragment.appendChild(buttonPin);
     }
-    return pinFragment;
+    // return pinFragment;
+    pinMapContainer.appendChild(pinFragment);
   };
-  var errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
-  };
-  window.backend.load(window.createPin, errorHandler);
+  window.backend.load(window.createPin, window.errorHandler);
 })();
 

@@ -53,7 +53,7 @@
     }
   };
 
-  var checkValidity = function () {
+  var checkValidity = function (evt) {
     for (var i = 0; i < inputElements.length; i++) {
       var userNameInput = inputElements[i];
       if (userNameInput.validity.tooShort) {
@@ -68,6 +68,11 @@
         userNameInput.setCustomValidity('Не соответствует минимальное значение');
       }
     }
+  };
+
+  var formSubmitSave = function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(form), window.errorHandler);
   };
 
   timeinForm.addEventListener('change', function () {
@@ -85,5 +90,6 @@
     window.synchronizeFields(roomNumber, capacityGuest, ROOMS, CAPACITYS, setGuestInRooms);
   });
   submitForm.addEventListener('submit', checkValidity);
+  submitForm.addEventListener('submit', formSubmitSave);
 })();
 
