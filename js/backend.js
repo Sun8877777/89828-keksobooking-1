@@ -20,16 +20,19 @@
           break;
         case 400:
           msg = 'Неверный запрос';
+          onError('Неверный запрос');
           break;
         case 401:
+          onError(xhr.response);
           msg = 'Пользователь не авторизован';
           break;
         case 404:
+          onError(xhr.response);
           msg = 'Ничего не найдено';
           break;
         default:
-          onError(xhr.response);
           msg = ERROR_STATUS + xhr.status + ' ' + xhr.statusText;
+          onError(msg);
       }
     });
 

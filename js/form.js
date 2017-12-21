@@ -53,7 +53,7 @@
     }
   };
 
-  var checkValidity = function (evt) {
+  var checkValidity = function () {
     for (var i = 0; i < inputElements.length; i++) {
       var userNameInput = inputElements[i];
       if (userNameInput.validity.tooShort) {
@@ -70,10 +70,16 @@
     }
   };
 
-  var formSubmitSave = function (evt) {
-    evt.preventDefault();
-    window.backend.save(new FormData(form), window.errorHandler);
+  var succsess = function () {
     form.reset();
+    console.log(form);
+  };
+
+  var formSubmitSave = function (evt) {
+    checkValidity(evt);
+    window.backend.save(new FormData(form), succsess, window.errorHandler);
+    evt.preventDefault();
+
   };
 
   timeinForm.addEventListener('change', function () {
@@ -90,7 +96,7 @@
   roomNumber.addEventListener('change', function () {
     window.synchronizeFields(roomNumber, capacityGuest, ROOMS, CAPACITYS, setGuestInRooms);
   });
-  submitForm.addEventListener('change', checkValidity);
+  form.addEventListener('submit', checkValidity);
   form.addEventListener('submit', formSubmitSave);
 })();
 

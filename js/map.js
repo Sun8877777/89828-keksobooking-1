@@ -29,6 +29,7 @@
     return dataNum.getAttribute('data-num');
   };
 
+
   var removeControlPanel = function () {
     var controlPanels = mainMap.querySelectorAll('article');
     for (var i = controlPanels.length - 1; i >= 0; i--) {
@@ -43,7 +44,8 @@
       removeControlPanel();
     }
   };
-  // обработчики событий
+
+
   var onPinMainClick = function () {
     removeClassFrom(mainMap, 'map--faded');
     removeClassFrom(mainFormPage, 'notice__form--disabled');
