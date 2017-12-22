@@ -1,6 +1,24 @@
 'use strict';
 (function () {
-  window.getData = function () {
+
+  var MAX_PINS = 5;
+
+  var data;
+
+  var setData = function (response) {
+    data = response;
+  };
+
+  var getFullData = function () {
+    return data.slice();
+  };
+
+  window.setData = setData;
+  window.getFullData = getFullData;
+
+  window.backend.load(window.setData, window.errorHandler);
+
+  window.getOldData = function () {
     var TOTAL_ADS = 8;
     var DESK_OF_CONDITIONS = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
     var HOUSING_CATEGORIES = {

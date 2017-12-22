@@ -44,8 +44,8 @@
     }
   };
 
-
   var onPinMainClick = function () {
+    window.initPin();
     removeClassFrom(mainMap, 'map--faded');
     removeClassFrom(mainFormPage, 'notice__form--disabled');
     enabledElemMainForm(fieldsetMainForm);
