@@ -23,7 +23,6 @@
       buttonPin.appendChild(imagePin);
       pinFragment.appendChild(buttonPin);
     }
-    // return pinFragment;
     pinMapContainer.appendChild(pinFragment);
   };
   window.backend.load(window.createPin, window.errorHandler);

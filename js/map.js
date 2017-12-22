@@ -25,7 +25,7 @@
   var removeClassFrom = function (element, className) {
     return element.classList.remove(className);
   };
-  var getDataNum = function (dataNum) { // получение номера из data -атрибута
+  var getDataNum = function (dataNum) {
     return dataNum.getAttribute('data-num');
   };
 
@@ -82,7 +82,7 @@
       disabledElemMainForm(fieldsetMainForm);
     }
   };
-  // module5 task2
+
   mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
