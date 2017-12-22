@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var generatePins = function (data) {
+  window.createPin = function (data) {
     var PIN_WIDTH = 40;
     var PIN_HEIGH = 40;
     var TOTAL_ADS = 8;
@@ -24,8 +24,6 @@
       pinFragment.appendChild(buttonPin);
     }
     pinMapContainer.appendChild(pinFragment);
-    window.createPin = generatePins(data);
-    window.activateFilters(data);
   };
   window.backend.load(window.createPin, window.errorHandler);
 })();
