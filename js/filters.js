@@ -13,11 +13,11 @@
     }
   };
 
-  var typeFilter = document.querySelector('#housing_type');
+  var typeFilter = document.querySelector('#housing-type');
   var priceFilter = document.querySelector('#housing_price');
-  var roomsFilter = document.querySelector('#housing_room-number');
-  var guestsFilter = document.querySelector('#housing_guests-number');
-  var featuresFilter = document.querySelector('#housing_features');
+  var roomsFilter = document.querySelector('#housing-rooms');
+  var guestsFilter = document.querySelector('#housing-guests');
+  var featuresFilter = document.querySelector('#housing-features');
 
   var filtrateFunctions = [
     function (notice) {
@@ -63,7 +63,7 @@
 
   window.activateFilters = function (notices) {
     var redrawPins = function () {
-      window.pin.update(getFiltratedAdvertisements(notices));
+      window.createPin(getFiltratedAdvertisements(notices));
     };
 
     var filterChangeHandler = function () {
